@@ -18,37 +18,37 @@ struct ContentView: View {
                 .edgesIgnoringSafeArea(.all)
                 .scaledToFill()
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            VStack(alignment: .center, spacing: 20){
-                Spacer()
-                Text("Create new account")
-                    .font(.largeTitle)
-                    .foregroundColor(Color.white)
-                    .alignmentGuide(.top) { _ in
-                                            return UIScreen.main.bounds.height * 0.1 // Adjust the value as needed
-                                        }
-                InputField(text: $userName, image: "person", hint: "Username")
-                InputField(text: $password, image: "heart.fill", hint: "Password")
-                Button(action: {
-                    print(userName)
-                    print(password)
-                }, label: {
-                    Text("Sign up")
-                        .padding(10)
-                })
-                .background(Color.white)
-                .foregroundColor(Color.gray)
-                .cornerRadius(10)
-                .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                
-                Spacer()
+            GeometryReader{ geometry in
+                VStack(alignment: .center,spacing: 20){
+                    Text("Create new account")
+                        .font(.largeTitle)
+                        .foregroundColor(Color.white)
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.2)
+                    
+                    VStack(spacing: 20){
+                        InputField(text: $userName, image: "person", hint: "Username")
+                        InputField(text: $password, image: "heart.fill", hint: "Password")
+                        
+                        Button(action: {
+                            print(userName)
+                            print(password)
+                        }, label: {
+                            Text("Next")
+                                .padding(10)
+                                .frame(width: UIScreen.main.bounds.width*0.5)
+                        })
+                        .background(Color.black)
+                        .foregroundColor(Color.white)
+                        .cornerRadius(5)
+                    }
+                    .frame(width: geometry.size.width, height: geometry.size.height*0.7)
+                }
             }
         }
     }
 }
 
+//height: geometry.size.height * 0.3, alignment: .top
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
@@ -67,9 +67,9 @@ struct InputField: View {
             .foregroundColor(Color.white)
             .overlay(HStack{
                 Image(systemName: image)
-                    .padding(5)
+                    .padding(15)
                 TextField(hint, text: $text)
-                    .padding(5)
+                    .padding(10)
             })
             .padding(10)
     }
